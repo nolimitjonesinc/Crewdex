@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CrewDex — Department Browse MOCKUP</title>
+<style>
+  :root{
+    --navy:#16243a; --blue:#3b6fe0; --blue-soft:#e8effd; --ink:#1c2433;
+    --mut:#6b7689; --line:#e3e8f0; --bg:#f5f7fb; --card:#ffffff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink);}
+
+  .mock-banner{background:#ffd54d; color:#5b4500; text-align:center; font-weight:700; padding:8px; font-size:14px; letter-spacing:.5px;}
+
+  header{background:var(--navy); color:#fff; padding:18px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+  .brand{font-size:24px; font-weight:800;}
+  .brand span{margin-right:8px;}
+  .stats{display:flex; gap:22px; font-size:14px; color:#aebada;}
+  .stats b{color:#fff; font-size:18px; margin-right:5px;}
+  .hbtns{display:flex; gap:10px;}
+  .hbtn{background:#243755; color:#fff; border:none; border-radius:8px; padding:9px 14px; font-size:14px; cursor:pointer;}
+
+  .scanbar{display:flex; gap:10px; align-items:center; padding:12px 28px; background:#fff; border-bottom:1px solid var(--line); font-size:14px; color:var(--mut);}
+  .scanbar .pill{background:var(--blue); color:#fff; border:none; border-radius:999px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;}
+  .scanbar .pill.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+
+  .searchwrap{padding:16px 28px 6px;}
+  .search{width:100%; padding:13px 18px; font-size:16px; border:1.5px solid var(--line); border-radius:12px; background:#fff;}
+
+  /* DEPARTMENT TABS */
+  .depts{display:flex; flex-wrap:wrap; gap:8px; padding:14px 28px 6px;}
+  .dept{border:1.5px solid var(--line); background:#fff; color:var(--ink); border-radius:999px; padding:8px 14px; font-size:14px; font-weight:600; cursor:pointer; display:flex; gap:7px; align-items:center;}
+  .dept small{color:var(--mut); font-weight:700;}
+  .dept.active{background:var(--blue); border-color:var(--blue); color:#fff;}
+  .dept.active small{color:#cfdcff;}
+
+  .sortrow{display:flex; align-items:center; gap:10px; padding:10px 28px; font-size:13px; color:var(--mut);}
+  .sortrow .sbtn{border:1px solid var(--line); background:#fff; border-radius:8px; padding:5px 10px; font-size:13px; cursor:pointer;}
+  .sortrow .sbtn.on{background:var(--blue-soft); border-color:var(--blue); color:var(--blue); font-weight:700;}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:14px; padding:8px 28px 40px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px;}
+  .card .name{font-size:17px; font-weight:800;}
+  .card .role{color:var(--blue); font-size:13px; font-weight:700; margin:2px 0 8px;}
+  .card .meta{font-size:14px; color:var(--ink); line-height:1.7;}
+  .card .meta a{color:var(--ink); text-decoration:none;}
+  .badge{display:inline-block; background:var(--blue-soft); color:var(--blue); border-radius:6px; font-size:12px; font-weight:700; padding:3px 8px; margin-top:10px;}
+  .last{font-size:12px; color:var(--mut); margin-top:6px;}
+</style>
+</head>
+<body>
+
+<div class="mock-banner">⚠️ MOCKUP — fake names, nothing works. Just showing the layout.</div>
+
+<header>
+  <div class="brand"><span>🎬</span>CrewDex</div>
+  <div class="stats">
+    <div><b>617</b>crew members</div>
+    <div><b>837</b>job appearances</div>
+    <div><b>48</b>callsheets scanned</div>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn">+ Add contact</button>
+    <button class="hbtn">Backup</button>
+    <button class="hbtn">Restore</button>
+  </div>
+</header>
+
+<div class="scanbar">
+  <button class="pill">✉️ Scan Gmail</button>
+  <button class="pill ghost">📄 Drop PDFs</button>
+  <span>Big scan boxes shrink to this strip once you have a database — your crew takes center stage.</span>
+</div>
+
+<div class="searchwrap">
+  <input class="search" placeholder="🔍 Search name, phone, email, title, production…">
+</div>
+
+<!-- DEPARTMENT TABS — click one, see everyone in it -->
+<div class="depts">
+  <button class="dept">All <small>617</small></button>
+  <button class="dept">Production <small>74</small></button>
+  <button class="dept active">Camera <small>89</small></button>
+  <button class="dept">G&amp;E <small>102</small></button>
+  <button class="dept">Sound <small>31</small></button>
+  <button class="dept">Art <small>58</small></button>
+  <button class="dept">Wardrobe <small>40</small></button>
+  <button class="dept">Hair/Makeup <small>36</small></button>
+  <button class="dept">Locations <small>22</small></button>
+  <button class="dept">Transport <small>19</small></button>
+  <button class="dept">Script <small>9</small></button>
+  <button class="dept">Stunts <small>7</small></button>
+  <button class="dept">Casting <small>12</small></button>
+  <button class="dept">Catering <small>15</small></button>
+  <button class="dept">Other <small>103</small></button>
+</div>
+
+<div class="sortrow">
+  Showing <b>&nbsp;Camera — 89 people&nbsp;</b> sorted by:
+  <button class="sbtn on">Worked together most</button>
+  <button class="sbtn">Most recent</button>
+  <button class="sbtn">A–Z</button>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <div class="name">Marcus Reyes</div>
+    <div class="role">DIRECTOR OF PHOTOGRAPHY</div>
+    <div class="meta">📱 (310) 555-0142<br>✉️ marcus.reyes@example.com</div>
+    <span class="badge">14 jobs together</span>
+    <div class="last">Last: "Nike Air Spring" — Mar 2026</div>
+  </div>
+  <div class="card">
+    <div class="name">Dana Whitfield</div>
+    <div class="role">1ST AC</div>
+    <div class="meta">📱 (818) 555-0177<br>✉️ dana.w@example.com</div>
+    <span class="badge">11 jobs together</span>
+    <div class="last">Last: "Toyota Q2 Campaign" — Feb 2026</div>
+  </div>
+  <div class="card">
+    <div class="name">Jules Okafor</div>
+    <div class="role">CAMERA OPERATOR</div>
+    <div class="meta">📱 (323) 555-0190<br>✉️ jules.ok@example.com</div>
+    <span class="badge">9 jobs together</span>
+    <div class="last">Last: "Apple Holiday Spot" — Dec 2025</div>
+  </div>
+  <div class="card">
+    <div class="name">Sam Trinh</div>
+    <div class="role">2ND AC</div>
+    <div class="meta">📱 (626) 555-0118<br>✉️ sam.trinh@example.com</div>
+    <span class="badge">7 jobs together</span>
+    <div class="last">Last: "Honda CR-V Launch" — Jan 2026</div>
+  </div>
+  <div class="card">
+    <div class="name">Priya Natarajan</div>
+    <div class="role">STEADICAM OP</div>
+    <div class="meta">📱 (424) 555-0155<br>✉️ priya.n@example.com</div>
+    <span class="badge">6 jobs together</span>
+    <div class="last">Last: "Pepsi Super Bowl Teaser" — Nov 2025</div>
+  </div>
+  <div class="card">
+    <div class="name">Connor Walsh</div>
+    <div class="role">DIT</div>
+    <div class="meta">📱 (213) 555-0136<br>✉️ connor.dit@example.com</div>
+    <span class="badge">5 jobs together</span>
+    <div class="last">Last: "Adidas Originals" — Oct 2025</div>
+  </div>
+</div>
+
+</body>
+</html>

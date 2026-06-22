@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrewDex — Your crew rolodex, built from your callsheets</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-row">
+    <h1>🎬 CrewDex</h1>
+    <div class="hdr-actions">
+      <button class="hbtn" id="csBtn">📋 Build Callsheet</button>
+      <button class="hbtn" id="addBtn">+ Add contact</button>
+      <button class="hbtn" id="exportBtn">Backup</button>
+      <button class="hbtn" id="importBtn">Restore</button>
+      <button class="hbtn danger" id="clearAllBtn">Clear All</button>
+      <input type="file" id="importFile" accept=".json" hidden>
+    </div>
+  </div>
+  <div class="stats">
+    <span><strong id="s-people">0</strong> crew members</span>
+    <span><strong id="s-jobs">0</strong> job appearances</span>
+    <span><strong id="s-sheets">0</strong> callsheets scanned</span>
+  </div>
+</div>
+
+<!-- Backup reminder / reconnect bar -->
+<div class="bkbar" id="bkbar" hidden></div>
+
+<!-- Intake: Gmail scan + drag-drop -->
+<div class="intake" id="intake">
+  <div class="intake-cards">
+    <div class="icard" id="gmailCard">
+      <div class="icard-ico">📧</div>
+      <div class="icard-tit">Scan my Gmail</div>
+      <div class="icard-sub">Finds every callsheet in your inbox and builds your rolodex automatically. Your emails go straight from Google to this page — they never touch our servers.</div>
+      <div class="scan-opts">
+        <label for="scanLimit">Scan:</label>
+        <select id="scanLimit">
+          <option value="50" selected>50 most recent callsheets</option>
+          <option value="200">200 most recent</option>
+          <option value="0">Everything (can take a while)</option>
+        </select>
+      </div>
+      <button class="big-btn" id="gmailBtn">Connect Gmail &amp; Scan</button>
+      <div class="icard-note" id="gmailNote"></div>
+    </div>
+    <div class="icard drop" id="dropZone">
+      <div class="icard-ico">📄</div>
+      <div class="icard-tit">Or drop callsheet PDFs here</div>
+      <div class="icard-sub">Drag files in, or click to choose. We read them right here in your browser.</div>
+      <button class="big-btn ghost" id="pickBtn">Choose PDFs</button>
+      <input type="file" id="pickFile" accept=".pdf" multiple hidden>
+    </div>
+  </div>
+</div>
+
+<!-- Live progress -->
+<div class="progress" id="progress" hidden>
+  <div class="prog-head">
+    <div class="prog-title" id="progTitle">Scanning…</div>
+    <button class="hbtn" id="cancelBtn">Stop</button>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+  <div class="prog-stats" id="progStats"></div>
+  <div class="prog-log" id="progLog"></div>
+</div>
+
+<div class="srch-wrap">
+  <div class="srch-box" id="sbox">
+    <input id="q" type="text" autocomplete="off"
+      placeholder="Search name, phone, email, title, production, date…">
+    <span class="srch-icon" id="sicon">🔍</span>
+    <button class="clr-btn" id="clrBtn">✕</button>
+    <div class="ac" id="ac"></div>
+  </div>
+</div>
+
+<div class="depts" id="depts" hidden></div>
+<div class="sortrow" id="sortrow" hidden>
+  <span class="sort-label">Sort by:</span>
+  <button class="sbtn on" data-sort="jobs">Worked together most</button>
+  <button class="sbtn" data-sort="recent">Most recent</button>
+  <button class="sbtn" data-sort="az">A–Z</button>
+</div>
+
+<div class="rbar" id="rbar" style="display:none"></div>
+<div class="grid" id="grid">
+  <div class="prompt"><div class="ico">🎬</div>
+    <p><strong>Your rolodex is empty.</strong></p>
+    <p>Scan your Gmail or drop in callsheet PDFs above — your crew database builds itself.</p>
+  </div>
+</div>
+
+<!-- Callsheet builder -->
+<div id="csView" hidden>
+  <div class="cs-toolbar">
+    <button class="hbtn" id="csBack">← Back to Rolodex</button>
+    <span class="cs-title-label">Commercial Call Sheet</span>
+    <div class="cs-toolbar-right">
+      <button class="big-btn" id="csPrint">🖨 Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="cs-layout">
+    <!-- Left: searchable rolodex panel -->
+    <div class="cs-panel">
+      <div class="cs-panel-hd">Your Crew</div>
+      <input id="csQ" type="text" class="cs-search" placeholder="Search crew…" autocomplete="off">
+      <div class="cs-roster" id="csRoster"></div>
+    </div>
+
+    <!-- Right: the actual callsheet -->
+    <div class="cs-sheet" id="csSheet">
+      <!-- Header block -->
+      <div class="cs-hdr-block">
+        <div class="cs-prod-line">
+          <div class="cs-field-group">
+            <label class="cs-lbl">Production Company</label>
+            <input class="cs-inp" id="csProdCo" placeholder="Nolimit Jones Productions">
+          </div>
+          <div class="cs-field-group">
+            <label class="cs-lbl">Client</label>
+            <input class="cs-inp" id="csClient" placeholder="Nike">
+          </div>
+          <div class="cs-field-group">
+            <label class="cs-lbl">Product / Campaign</label>
+            <input class="cs-inp" id="csCampaign" placeholder="Air Max Spring '26">
+          </div>
+        </div>
+        <div class="cs-prod-line">
+          <div class="cs-field-group">
+            <label class="cs-lbl">Director</label>
+            <input class="cs-inp" id="csDirector" placeholder="Jane Smith">
+          </div>
+          <div class="cs-field-group">
+            <label class="cs-lbl">Director of Photography</label>
+            <input class="cs-inp" id="csDP" placeholder="Marcus Reyes">
+          </div>
+          <div class="cs-field-group">
+            <label class="cs-lbl">Producer / UPM</label>
+            <input class="cs-inp" id="csProducer" placeholder="Lena Brooks">
+          </div>
+        </div>
+        <div class="cs-prod-line">
+          <div class="cs-field-group">
+            <label class="cs-lbl">Shoot Date</label>
+            <input class="cs-inp" id="csDate" type="date">
+          </div>
+          <div class="cs-field-group">
+            <label class="cs-lbl">General Crew Call</label>
+            <input class="cs-inp" id="csCall" placeholder="6:00 AM">
+          </div>
+          <div class="cs-field-group">
+            <label class="cs-lbl">First Shot</label>
+            <input class="cs-inp" id="csFirstShot" placeholder="8:00 AM">
+          </div>
+          <div class="cs-field-group">
+            <label class="cs-lbl">Estimated Wrap</label>
+            <input class="cs-inp" id="csWrap" placeholder="7:00 PM">
+          </div>
+        </div>
+        <div class="cs-prod-line">
+          <div class="cs-field-group cs-wide">
+            <label class="cs-lbl">Location / Address</label>
+            <input class="cs-inp" id="csLocation" placeholder="123 Main St, Los Angeles, CA 90012">
+          </div>
+          <div class="cs-field-group">
+            <label class="cs-lbl">Nearest Hospital</label>
+            <input class="cs-inp" id="csHospital" placeholder="Cedars-Sinai Medical Center">
+          </div>
+        </div>
+      </div>
+
+      <!-- Crew sections — one per department -->
+      <div class="cs-crew-grid" id="csDepts"></div>
+    </div>
+  </div>
+</div>
+
+<dialog id="clearDlg">
+  <form method="dialog" id="clearForm">
+    <h3>Delete all contacts?</h3>
+    <p id="clearDlgMsg">This removes everyone from your rolodex and can't be undone. Make sure you've downloaded a backup first.</p>
+    <div class="dlg-btns">
+      <button value="cancel" class="hbtn" formnovalidate>Cancel</button>
+      <button value="ok" class="big-btn" style="background:#dc2626">Yes, delete all</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="addDlg">
+  <form method="dialog" id="addForm">
+    <h3>Add a contact</h3>
+    <label>Name <input id="adName" required placeholder="Jane Doe"></label>
+    <label>Role / title <input id="adTitle" placeholder="GAFFER"></label>
+    <label>Phone <input id="adPhone" type="tel" placeholder="(310) 555-1234"></label>
+    <label>Email <input id="adEmail" type="email" placeholder="jane@example.com"></label>
+    <div class="dlg-btns">
+      <button value="cancel" class="hbtn" formnovalidate>Cancel</button>
+      <button value="ok" class="big-btn" id="addSave">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="foot">
+  Built by <a href="https://nolimitjones.com" target="_blank" rel="noopener">Danny Jones</a> —
+  15 years of callsheets taught me where the phone numbers hide.
+  <span class="foot-priv">🔒 Everything stays in your browser. Nothing is uploaded anywhere.</span>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="config.js"></script>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

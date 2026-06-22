@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CrewDex — Drop-Down Departments MOCKUP</title>
+<style>
+  :root{
+    --navy:#16243a; --blue:#3b6fe0; --blue-soft:#e8effd; --ink:#1c2433;
+    --mut:#6b7689; --line:#e3e8f0; --bg:#f5f7fb; --card:#ffffff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink);}
+
+  .mock-banner{background:#ffd54d; color:#5b4500; text-align:center; font-weight:700; padding:8px; font-size:14px; letter-spacing:.5px;}
+
+  header{background:var(--navy); color:#fff; padding:18px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+  .brand{font-size:24px; font-weight:800;}
+  .brand span{margin-right:8px;}
+  .stats{display:flex; gap:22px; font-size:14px; color:#aebada;}
+  .stats b{color:#fff; font-size:18px; margin-right:5px;}
+  .hbtns{display:flex; gap:10px;}
+  .hbtn{background:#243755; color:#fff; border:none; border-radius:8px; padding:9px 14px; font-size:14px; cursor:pointer;}
+
+  .scanbar{display:flex; gap:10px; align-items:center; padding:12px 28px; background:#fff; border-bottom:1px solid var(--line); font-size:14px; color:var(--mut);}
+  .scanbar .pill{background:var(--blue); color:#fff; border:none; border-radius:999px; padding:8px 16px; font-weight:600; font-size:13px; cursor:pointer;}
+  .scanbar .pill.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+
+  .searchwrap{padding:16px 28px 10px;}
+  .search{width:100%; padding:13px 18px; font-size:16px; border:1.5px solid var(--line); border-radius:12px; background:#fff;}
+
+  /* DROP-DOWN (ACCORDION) LIST */
+  .list{padding:6px 28px 50px; max-width:1100px; margin:0 auto;}
+  details{background:#fff; border:1px solid var(--line); border-radius:12px; margin-bottom:10px; overflow:hidden;}
+  summary{list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; padding:16px 20px; font-size:17px; font-weight:800;}
+  summary::-webkit-details-marker{display:none;}
+  summary .left{display:flex; align-items:center; gap:12px;}
+  summary .count{background:var(--blue-soft); color:var(--blue); border-radius:999px; font-size:13px; font-weight:800; padding:4px 12px;}
+  summary .arrow{color:var(--mut); font-size:14px; transition:transform .15s;}
+  details[open] .arrow{transform:rotate(180deg);}
+  details[open] summary{border-bottom:1px solid var(--line); background:#fafcff;}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px; padding:16px 20px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px;}
+  .card .name{font-size:16px; font-weight:800;}
+  .card .role{color:var(--blue); font-size:13px; font-weight:700; margin:2px 0 7px;}
+  .card .meta{font-size:14px; line-height:1.6;}
+  .badge{display:inline-block; background:var(--blue-soft); color:var(--blue); border-radius:6px; font-size:12px; font-weight:700; padding:3px 8px; margin-top:9px;}
+  .last{font-size:12px; color:var(--mut); margin-top:5px;}
+</style>
+</head>
+<body>
+
+<div class="mock-banner">⚠️ MOCKUP — fake names. The drop-downs DO open and close — click around.</div>
+
+<header>
+  <div class="brand"><span>🎬</span>CrewDex</div>
+  <div class="stats">
+    <div><b>617</b>crew members</div>
+    <div><b>837</b>job appearances</div>
+    <div><b>48</b>callsheets scanned</div>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn">+ Add contact</button>
+    <button class="hbtn">Backup</button>
+    <button class="hbtn">Restore</button>
+  </div>
+</header>
+
+<div class="scanbar">
+  <button class="pill">✉️ Scan Gmail</button>
+  <button class="pill ghost">📄 Drop PDFs</button>
+  <span>Same slim scan strip as the other mockup.</span>
+</div>
+
+<div class="searchwrap">
+  <input class="search" placeholder="🔍 Search name, phone, email, title, production…">
+</div>
+
+<div class="list">
+
+  <details>
+    <summary><span class="left">Production <span class="count">74</span></span><span class="arrow">▼</span></summary>
+    <div class="grid">
+      <div class="card"><div class="name">Lena Brooks</div><div class="role">PRODUCTION MANAGER</div><div class="meta">📱 (310) 555-0101<br>✉️ lena.b@example.com</div><span class="badge">12 jobs together</span><div class="last">Last: "Nike Air Spring" — Mar 2026</div></div>
+      <div class="card"><div class="name">Omar Said</div><div class="role">1ST AD</div><div class="meta">📱 (818) 555-0122<br>✉️ omar.ad@example.com</div><span class="badge">8 jobs together</span><div class="last">Last: "Toyota Q2" — Feb 2026</div></div>
+    </div>
+  </details>
+
+  <details open>
+    <summary><span class="left">Camera <span class="count">89</span></span><span class="arrow">▼</span></summary>
+    <div class="grid">
+      <div class="card"><div class="name">Marcus Reyes</div><div class="role">DIRECTOR OF PHOTOGRAPHY</div><div class="meta">📱 (310) 555-0142<br>✉️ marcus.reyes@example.com</div><span class="badge">14 jobs together</span><div class="last">Last: "Nike Air Spring" — Mar 2026</div></div>
+      <div class="card"><div class="name">Dana Whitfield</div><div class="role">1ST AC</div><div class="meta">📱 (818) 555-0177<br>✉️ dana.w@example.com</div><span class="badge">11 jobs together</span><div class="last">Last: "Toyota Q2 Campaign" — Feb 2026</div></div>
+      <div class="card"><div class="name">Jules Okafor</div><div class="role">CAMERA OPERATOR</div><div class="meta">📱 (323) 555-0190<br>✉️ jules.ok@example.com</div><span class="badge">9 jobs together</span><div class="last">Last: "Apple Holiday Spot" — Dec 2025</div></div>
+      <div class="card"><div class="name">Sam Trinh</div><div class="role">2ND AC</div><div class="meta">📱 (626) 555-0118<br>✉️ sam.trinh@example.com</div><span class="badge">7 jobs together</span><div class="last">Last: "Honda CR-V Launch" — Jan 2026</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="left">G&amp;E <span class="count">102</span></span><span class="arrow">▼</span></summary>
+    <div class="grid">
+      <div class="card"><div class="name">Ray Delgado</div><div class="role">GAFFER</div><div class="meta">📱 (213) 555-0161<br>✉️ ray.gaffer@example.com</div><span class="badge">10 jobs together</span><div class="last">Last: "Pepsi Teaser" — Nov 2025</div></div>
+      <div class="card"><div class="name">Kim Nakamura</div><div class="role">KEY GRIP</div><div class="meta">📱 (424) 555-0183<br>✉️ kim.grip@example.com</div><span class="badge">9 jobs together</span><div class="last">Last: "Adidas Originals" — Oct 2025</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="left">Sound <span class="count">31</span></span><span class="arrow">▼</span></summary>
+    <div class="grid">
+      <div class="card"><div class="name">Felix Arno</div><div class="role">SOUND MIXER</div><div class="meta">📱 (323) 555-0144<br>✉️ felix.sound@example.com</div><span class="badge">6 jobs together</span><div class="last">Last: "Honda CR-V Launch" — Jan 2026</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="left">Art <span class="count">58</span></span><span class="arrow">▼</span></summary>
+    <div class="grid">
+      <div class="card"><div class="name">Maya Castillo</div><div class="role">PRODUCTION DESIGNER</div><div class="meta">📱 (310) 555-0188<br>✉️ maya.art@example.com</div><span class="badge">7 jobs together</span><div class="last">Last: "Apple Holiday Spot" — Dec 2025</div></div>
+    </div>
+  </details>
+
+  <details><summary><span class="left">Wardrobe <span class="count">40</span></span><span class="arrow">▼</span></summary><div class="grid"><div class="card"><div class="name">Tess Bergman</div><div class="role">COSTUME DESIGNER</div><div class="meta">📱 (818) 555-0109<br>✉️ tess.w@example.com</div><span class="badge">5 jobs together</span><div class="last">Last: "Toyota Q2" — Feb 2026</div></div></div></details>
+  <details><summary><span class="left">Hair/Makeup <span class="count">36</span></span><span class="arrow">▼</span></summary><div class="grid"><div class="card"><div class="name">Noor Haddad</div><div class="role">KEY MAKEUP</div><div class="meta">📱 (213) 555-0171<br>✉️ noor.mu@example.com</div><span class="badge">6 jobs together</span><div class="last">Last: "Nike Air Spring" — Mar 2026</div></div></div></details>
+  <details><summary><span class="left">Locations <span class="count">22</span></span><span class="arrow">▼</span></summary><div class="grid"><div class="card"><div class="name">Gus Pereira</div><div class="role">LOCATION MANAGER</div><div class="meta">📱 (626) 555-0150<br>✉️ gus.loc@example.com</div><span class="badge">4 jobs together</span><div class="last">Last: "Pepsi Teaser" — Nov 2025</div></div></div></details>
+  <details><summary><span class="left">Transport <span class="count">19</span></span><span class="arrow">▼</span></summary><div class="grid"><div class="card"><div class="name">Vic Romano</div><div class="role">TRANSPO COORDINATOR</div><div class="meta">📱 (323) 555-0115<br>✉️ vic.t@example.com</div><span class="badge">3 jobs together</span><div class="last">Last: "Adidas Originals" — Oct 2025</div></div></div></details>
+  <details><summary><span class="left">Other <span class="count">103</span></span><span class="arrow">▼</span></summary><div class="grid"><div class="card"><div class="name">Robin Yee</div><div class="role">DRONE OP</div><div class="meta">📱 (424) 555-0139<br>✉️ robin.fly@example.com</div><span class="badge">2 jobs together</span><div class="last">Last: "Honda CR-V Launch" — Jan 2026</div></div></div></details>
+
+</div>
+
+</body>
+</html>
