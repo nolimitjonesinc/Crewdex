@@ -1059,6 +1059,8 @@ const CS_DEPTS = [
 // Which people are on this callsheet: { deptName: [personIndex, ...] }
 let csSlots = {};
 let csMode = false;
+let csFilterDept = 'All';   // left-panel department filter
+let csSort = 'recent';      // left-panel sort: 'recent' | 'jobs' | 'az'
 
 function openCallsheet() {
   csMode = true;
@@ -1069,6 +1071,7 @@ function openCallsheet() {
     const n = document.getElementById(id);
     if (n) n.style.display = 'none';
   });
+  renderCsFilter();
   renderCsRoster('');
   renderCsDepts();
 }
@@ -1084,16 +1087,48 @@ function closeCallsheet() {
   showPromptOrResults();
 }
 
-// Left panel: searchable list of all crew
+// Left panel: department filter chips (only departments that have people)
+function renderCsFilter() {
+  const wrap = document.getElementById('csFilter');
+  if (!wrap) return;
+  const counts = {};
+  for (const p of people) {
+    const d = personDept(p);
+    counts[d] = (counts[d] || 0) + 1;
+  }
+  // If the active filter no longer has anyone, fall back to All
+  if (csFilterDept !== 'All' && !counts[csFilterDept]) csFilterDept = 'All';
+  const mk = (d, n) => {
+    const b = el('button', 'cs-chip' + (d === csFilterDept ? ' on' : ''),
+      d + ' ', el('small', null, num(n)));
+    b.dataset.csfilter = d;
+    return b;
+  };
+  const btns = [mk('All', people.length)];
+  for (const d of CS_DEPTS) if (counts[d]) btns.push(mk(d, counts[d]));
+  wrap.replaceChildren(...btns);
+}
+
+// Left panel: searchable, department-filtered, sorted list of crew
 function renderCsRoster(q) {
   const ql = q.toLowerCase();
   const list = document.getElementById('csRoster');
-  const matches = people.filter((p, i) => {
+  const matches = people.filter((p) => {
+    if (csFilterDept !== 'All' && personDept(p) !== csFilterDept) return false;
     if (!q) return true;
     return (p.name + ' ' + (p.jobs?.[0]?.title || '')).toLowerCase().includes(ql);
   });
+  matches.sort((a, b) => {
+    if (csSort === 'az') return a.name.localeCompare(b.name);
+    if (csSort === 'jobs') {
+      return (b.jobs?.length || 0) - (a.jobs?.length || 0) || a.name.localeCompare(b.name);
+    }
+    // recent: newest collaborator first, then alphabetical
+    return lastDate(b).localeCompare(lastDate(a)) || a.name.localeCompare(b.name);
+  });
   if (!matches.length) {
-    list.replaceChildren(el('div', 'cs-empty', q ? 'No results' : 'Your rolodex is empty'));
+    list.replaceChildren(el('div', 'cs-empty',
+      q ? 'No results' : (csFilterDept === 'All' ? 'Your rolodex is empty' : 'Nobody in this department yet')));
     return;
   }
   list.replaceChildren(...matches.map(p => {
@@ -1185,6 +1220,23 @@ function csMoveDialog(dept, slotIdx) {
 
 // Event delegation for callsheet interactions
 document.getElementById('csView').addEventListener('click', (e) => {
+  // Department filter chip
+  const chipEl = e.target.closest('[data-csfilter]');
+  if (chipEl) {
+    csFilterDept = chipEl.dataset.csfilter;
+    renderCsFilter();
+    renderCsRoster(document.getElementById('csQ').value.trim());
+    return;
+  }
+  // Sort toggle
+  const sortEl = e.target.closest('[data-cssort]');
+  if (sortEl) {
+    csSort = sortEl.dataset.cssort;
+    document.querySelectorAll('#csSortRow .cs-sbtn').forEach(b =>
+      b.classList.toggle('on', b === sortEl));
+    renderCsRoster(document.getElementById('csQ').value.trim());
+    return;
+  }
   const addEl = e.target.closest('[data-cs-add]');
   if (addEl) {
     const idx = +addEl.dataset.csAdd;
@@ -1195,7 +1247,10 @@ document.getElementById('csView').addEventListener('click', (e) => {
   }
   const dropEl = e.target.closest('[data-cs-dept]');
   if (dropEl && dropEl.classList.contains('cs-drop')) {
-    // "Add crew here" on a specific dept — open the panel search focused
+    // "Add crew here" on a specific dept — filter the left panel to that dept
+    csFilterDept = dropEl.dataset.csDept || 'All';
+    renderCsFilter();
+    renderCsRoster(document.getElementById('csQ').value.trim());
     document.getElementById('csQ').focus();
     return;
   }

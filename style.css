@@ -169,6 +169,16 @@ dialog input:focus{border-color:var(--blue)}
 .cs-panel-hd{padding:14px 16px 8px;font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
 .cs-search{margin:0 12px 8px;padding:9px 12px;font-size:14px;border:1.5px solid var(--border);border-radius:9px;outline:none;font-family:inherit}
 .cs-search:focus{border-color:var(--blue)}
+.cs-filter{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 8px;max-height:118px;overflow-y:auto}
+.cs-chip{border:1.5px solid var(--border);background:#fff;color:var(--text);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;gap:5px;align-items:center;transition:border-color .1s,background .1s}
+.cs-chip:hover{border-color:var(--blue)}
+.cs-chip small{color:var(--muted);font-weight:700;font-size:11px}
+.cs-chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.cs-chip.on small{color:#cfdcff}
+.cs-sortrow{display:flex;gap:6px;padding:0 12px 8px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.cs-sbtn{border:1px solid var(--border);background:#fff;border-radius:8px;padding:4px 9px;font-size:11px;cursor:pointer;font-family:inherit;color:var(--text)}
+.cs-sbtn:hover{border-color:var(--blue)}
+.cs-sbtn.on{background:var(--blue-lt);border-color:var(--blue);color:var(--blue);font-weight:700}
 .cs-roster{flex:1;overflow-y:auto;padding:4px 8px 16px}
 .cs-person{padding:9px 10px;border-radius:9px;cursor:pointer;border:1px solid transparent;transition:background .1s;margin-bottom:3px}
 .cs-person:hover{background:var(--blue-lt);border-color:var(--blue)}
