@@ -1,0 +1,42 @@
+# Status Brain — on every push, reads what changed and rewrites STATUS.md in plain English.
+# Needs one repo secret: ANTHROPIC_API_KEY
+name: Status Brain
+on:
+  push:
+    branches: ["**"]
+
+concurrency:
+  group: status-brain-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 20
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Write STATUS.md
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node status-brain.mjs
+
+      - name: Commit STATUS.md if it changed
+        run: |
+          if [ -n "$(git status --porcelain STATUS.md)" ]; then
+            git config user.name "Status Brain"
+            git config user.email "brain@nolimitjones.local"
+            git add STATUS.md
+            git commit -m "chore: update STATUS.md [skip ci]"
+            git push
+          else
+            echo "No status change."
+          fi
